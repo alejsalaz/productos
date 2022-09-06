@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-1">
+      <h2><%= form_title %></h2>
+
+      <%= form_for @product do |form| %>
+        <div class="form-group">
+          <%= form.text_field :name, class: "form-control input-lg", placeholder:
+          "Ingresa el nombre del producto", autocomplete: "off" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.number_field :price, class: "form-control input-lg",
+          placeholder: "Ingresa el valor del producto", autocomplete: "off",  pattern: "^\d*(\.\d{0,2})?$"%>
+        </div>
+
+        <div class="form-group">
+          <%= hidden_field_tag "product[category_ids][]", nil %>
+          <% Category.all.each do |category| %>
+            <div class="form-check">
+              <%= check_box_tag "product[category_ids][]", category.id, @product.category_ids.include?(category.id), id: dom_id(category) %>
+              <%= category.name %>
+            </div>
+          <% end %>
+        </div>
+
+        <div>
+          <%= form.submit form_title, class: "btn btn-primary btn-lg btn-block" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% if flash[:product_errors] %>
+<ul>
+  <% flash[:product_errors].each do |error| %>
+  <li><%= error %></li>
+  <% end %>
+</ul>
+<% end %>

@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Lista de productos</h1>
+      <div class="text-right">
+        <%= link_to "Crear", new_product_path, class: "btn btn-primary" %>
+      </div>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Categorías</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @products.each do |product| %>
+          <tr>
+            <td><%= link_to product.name, product %></td>
+            <td>$<%= product.price %></td>
+            <td><%= product.categories.map(&:name).join(', ') %></td>
+            <td>
+              <%= link_to edit_product_path(product), class: "btn btn-warning" do  %>
+                <i class="fa-solid fa-pen-to-square fs-10"></i>
+              <% end %>
+              <%= link_to product, method: :delete, class: "btn btn-danger", data: { confirm: "¿De verdad quieres borrar este producto?"} do  %>
+                <i class="fa-solid fa-trash fs-10"></i>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
